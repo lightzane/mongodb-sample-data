@@ -1,0 +1,15 @@
+{
+    "name": "mongodb-data",
+    "version": "1.0.0",
+    "description": "Load sample data to MongoDb",
+    "main": "populate-db.js",
+    "scripts": {
+        "start": "node populate-db"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "argon2": "^0.27.2",
+        "mongodb": "^3.6.8"
+    }
+}
