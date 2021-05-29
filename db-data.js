@@ -168,6 +168,42 @@ exports.COURSES = {
         url: 'angular-material-course',
         promo: false,
     },
+    15: {
+        id: 15,
+        description: 'IU - Celebrity',
+        longDescription:
+            'IU releases her 5th Album "Lilac" that starts with a pre-release of Celebrity.',
+        iconUrl:
+            'https://lh3.googleusercontent.com/proxy/2TG7rR8JwDacECUuYyxOn836zNjhOVJjoC9_0VnxcOTJ_6cCPod-1Vk8ebcR5zYaEeP93hu3baPGylHBB-1_kytFsmHM_wFBfVeGTy7WJQgZATnRtqQ4dIrj4MQ-HfyjWS-b778ksj8LaB0KVQno',
+        category: 'BEGINNER',
+        seqNo: 5,
+        url: 'iu-celebrity',
+        promo: true,
+    },
+    16: {
+        id: 16,
+        description: 'Sky Children of the Light',
+        longDescription:
+            'From the award-winning creators behind Journey (2013 Game of The Year) and the highly-acclaimed Flower, comes a ground-breaking social adventure that is set to warm your hearts.Welcome to the enchanting world of Sky, a beautifully-animated kingdom waiting to be explored by you and your loved ones.',
+        iconUrl:
+            'https://play-lh.googleusercontent.com/3-AOeSSoqN3IK750gMz4FwOJw0MnIT-_dSA2Ujs9MzcS5bMaV9bwTBwH2udoEmBsBKY',
+        category: 'BEGINNER',
+        seqNo: 14,
+        url: 'sky-children-of-the-light',
+        promo: true,
+    },
+    17: {
+        id: 17,
+        description: 'Eve Echoes',
+        longDescription:
+            "EVE Echoes is a next-gen mobile spaceship MMO game based upon hallmark EVE Online design principles. In EVE Echoes, players will be able to forge their own path to glory within a massive space sandbox environment, forming alliances with other pilots from across the galaxy to shape the game's persistent universe.",
+        iconUrl:
+            'https://www.androidpolice.com/wp-content/uploads/2019/08/EVE-Echoes.jpg',
+        category: 'BEGINNER',
+        seqNo: 17,
+        url: 'eve-echoes',
+        promo: false,
+    },
 };
 
 exports.LESSONS = {
@@ -694,7 +730,7 @@ exports.findCourseById = findCourseById;
 
 function findLessonsForCourse(courseId) {
     return Object.values(exports.LESSONS).filter(
-        (lesson) => lesson.courseId == courseId,
+        (lesson) => lesson.courseId == courseId
     );
 }
 
@@ -702,7 +738,7 @@ exports.findLessonsForCourse = findLessonsForCourse;
 
 function authenticate(email, password) {
     const user = Object.values(exports.USERS).find(
-        (user) => user.email === email,
+        (user) => user.email === email
     );
     if (user && user.password == password) {
         return user;
