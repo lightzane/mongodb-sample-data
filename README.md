@@ -287,3 +287,106 @@ db.<collection>.find().sort({"field_1":-1}).limit(1)
 ### performance
 learn .createIndex()
 ```
+
+### Advance Mongo Queries
+
+**Sample Data** `sampleData { _id: string, answers: Answers, timestamp: string }`
+
+```json
+{
+	"_id": "62c273860f5e68192285f264",
+	"answers": [
+		"identifier": "3188c562-a0ca-4e29-874d-5399338a746b",
+		"value": "Answer A",
+		"score": 50,
+		"active": true
+	],
+	"timestamp": "2022-07-04T04:58:46.000Z"
+}
+```
+
+**Pre-requisite for Typegoose**
+
+```ts
+import { mongoose } from '@typegoose/typegoose';
+
+const ObjectId = (_id: string): mongoose.Types.ObjectId {
+	return new mongoose.Types.ObjectId(_id);
+}
+```
+
+**To insert or push items** in `answers` array
+
+```ts
+const answers = { identifier: uuidv4(), value: "Answer B", score: 35 }
+const filter = { _id: ObjectId(_id) }
+const update = {
+	$push: { answers },
+	$set: { timestamp: new Date().toISOString() }
+}
+const options = { new: true }
+
+this.entityModel.findOneAndUpdate(filter, update, options)
+```
+
+**To update a property of a single item** inside the `answers` array
+
+```ts
+const identifier = '3188c562-a0ca-4e29-874d-5399338a746b'
+const filter = { 'sampleData.answers': identifier }
+const update = {
+	$set: { 
+		'sampleData.$.active': false
+		timestamp: new Date().toISOString() 
+	}
+}
+const options = { new: true }
+
+this.entityModel.findOneAndUpdate(filter, update, options)
+```
+
+**To update a property of ALL item** inside the `answers` array
+
+```ts
+const filter = { _id: ObjectId(_id) }
+const update = {
+	$set: { 
+		'sampleData.$[].active': false
+		timestamp: new Date().toISOString() 
+	}
+}
+const options = { new: true }
+
+this.entityModel.findOneAndUpdate(filter, update, options)
+```
+
+**To filter result and display only sampleData.answers.active === TRUE**
+```
+try {
+	const query = []
+	query.push(
+		{ $match: { _id: ObjectId(_id) } },
+		{
+			$project: {
+				timestamp: 1,
+				answers: {
+					$filter: {
+						input: '$answers',
+						as: 'answers',
+						cond: {
+							$eq: {
+								'$$answers.active',
+								true
+							}
+						}
+					}
+				}
+			}
+		}
+	)
+	
+	this.entityModel.aggregate(query)
+}
+
+catch (err) {}
+```
